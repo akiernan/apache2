@@ -13,7 +13,7 @@ describe 'apache2::mod_auth_openid' do
     conffile = case node['platform']
                when 'debian', 'ubuntu'
                  "apache2.conf"
-               when "redhat", "centos", "scientific", "fedora", "arch", "amazon"
+               when "redhat", "centos", "scientific", "fedora", "arch", "amazon", "oracle"
                  "conf/httpd.conf"
                when "freebsd"
                  "httpd.conf"

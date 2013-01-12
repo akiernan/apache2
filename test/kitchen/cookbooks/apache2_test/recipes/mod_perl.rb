@@ -25,17 +25,17 @@ include_recipe "apache2::mod_perl"
 
 package "perl-CGI-SpeedyCGI" do
   action :install
-  only_if { platform?("redhat", "centos", "scientific", "fedora", "amazon") }
+  only_if { platform?("redhat", "centos", "scientific", "fedora", "amazon", "oracle") }
 end
 
 file "#{node['apache']['dir']}/conf.d/apreq.conf" do
   action :delete
-  only_if { platform?("redhat", "centos", "scientific", "fedora", "amazon") }
+  only_if { platform?("redhat", "centos", "scientific", "fedora", "amazon", "oracle") }
 end
 
 file "#{node['apache']['dir']}/conf.d/perl.conf" do
   action :delete
-  only_if { platform?("redhat", "centos", "scientific", "fedora", "amazon") }
+  only_if { platform?("redhat", "centos", "scientific", "fedora", "amazon", "oracle") }
 end
 
 directory node['apache_test']['app_dir'] do
