@@ -17,22 +17,36 @@
 # limitations under the License.
 #
 
+filename = nil
+
 case node['platform_family']
 when "debian"
 
   package "libapache2-mod-wsgi"
 
 when "rhel", "fedora", "arch"
+  p = 'mod_wsgi'
+  if platform_family?("rhel")
+    major_version = node['platform_version'].split('.').first.to_i
+    if major_version < 6
+      p = 'python26-mod_wsgi'
+      filename = 'python26-mod_wsgi.so'
+    end
+  end
 
-  package "mod_wsgi" do
+  package p do
     notifies :run, "execute[generate-module-list]", :immediately
   end
 
 end
 
-file "#{node['apache']['dir']}/conf.d/wsgi.conf" do
-  action :delete
-  backup false
+['wsgi.conf', 'python26-mod_wsgi.conf'].each do |f|
+  file "#{node['apache']['dir']}/conf.d/#{f}" do
+    action :delete
+    backup false
+  end
 end
 
-apache_module "wsgi"
+apache_module "wsgi" do
+  filename filename
+end
